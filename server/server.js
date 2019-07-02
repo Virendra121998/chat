@@ -17,7 +17,7 @@ io.on('connection',(socket)=>{
 		from:"Admin",
 		text:"Welcome to chat room"
 	});
-	socket.emit.broadcast('newUser',{
+	socket.broadcast.emit('newUser',{
 		from:"admin",
 		text:"New User joined"
 	});
