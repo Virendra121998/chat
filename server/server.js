@@ -4,6 +4,7 @@ const express=require('express');
 const socketio=require('socket.io');
 const http=require('http');
 const hbs=require('hbs');
+const {m}=require('./utils/message');
 const port=process.env.PORT||3000;
 var app=express();
 var server=http.createServer(app);
@@ -13,21 +14,12 @@ app.use(express.static(publicpath));
 io.on('connection',(socket)=>{
 	console.log('new user connected');
 	
-	socket.emit('new',{
-		from:"Admin",
-		text:"Welcome to chat room"
-	});
-	socket.broadcast.emit('newUser',{
-		from:"admin",
-		text:"New User joined"
-	});
+	socket.emit('new',m('Admin','Welcome to chat app'));
+	socket.broadcast.emit('newUser',m('admin','New User JOined'));
+
 	socket.on('createMessage',(message)=>{
          console.log(message);
-         io.emit('newMessage',{
-		from:message.to,
-		text:message.text,
-		createdAt:new Date().getTime()
-	});
+         io.emit('newMessage',m(message.from,message.text));
 	});
 
 	socket.on('disconnect',()=>{
