@@ -4,7 +4,13 @@ var socket=io();
 
         
      });
-         
+      
+     socket.on('new',function(mes){
+     	console.log('Message from server', mes);
+     });
+     socket.on('newUser',function(mes){
+     	console.log('Message to every other user',mes);
+     });   
      socket.on('disconnect',function(){
      console.log('disconnected from server');
  });
