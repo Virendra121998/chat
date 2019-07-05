@@ -16,21 +16,36 @@ var socket=io();
  });
      socket.on('newMessage',function(message){
      	console.log('Message from server is ',message);
-     	var li=jQuery('<li></li>');
-     	li.text(`${message.from}:${moment(message.createdAt).format('LT')} ${message.text}`);
-     	jQuery('#messages').append(li);
+     	var template=jQuery('#message-template').html();
+     	var ht=Mustache.render(template,{
+     		from:message.from,
+     		text:message.text,
+     		createdAt:moment(message.createdAt).format('LT')
+     	});
+        jQuery('#messages').append(ht);
+     	// var li=jQuery('<li></li>');
+     	// li.text(`${message.from}:${moment(message.createdAt).format('LT')} ${message.text}`);
+     	// jQuery('#messages').append(li);
      });
      // socket.emit('createMessage',{from:"Virendra",text:"its hot here"},function(data){
      // 	console.log("got it",data);
      // });
       socket.on('newLocationMessage',function(message){
-      	var l2=jQuery('<li></li>');
-      	var a=jQuery('<a target="_blank">My current Location</a>');
-      	l2.text(`${message.from}: ${moment(message.createdAt).format('LT')}  `);
-      	a.attr('href',message.u);
-      	l2.append(a);
-      	jQuery('#messages').append(l2);
+      	var template=jQuery('#location-message-template').html();
+      	var ht=Mustache.render(template,{
+      		from:message.from,
+      		u:message.u,
+      		createdAt:moment(message.createdAt).format('LT')
+      	});
+      	jQuery('#messages').append(ht);
+      	// var l2=jQuery('<li></li>');
+      	// var a=jQuery('<a target="_blank">My current Location</a>');
+      	// l2.text(`${message.from}: ${moment(message.createdAt).format('LT')}  `);
+      	// a.attr('href',message.u);
+      	// l2.append(a);
+      	// jQuery('#messages').append(l2);
       });
+      
       jQuery('#message-form').on('submit',function(e){
      	e.preventDefault();
 
@@ -41,6 +56,7 @@ var socket=io();
      		console.log('Got it ',data);
      	});
      });	
+     
       var l=jQuery('#location');
       l.on('click',function(){
       	if(!navigator.geolocation){
