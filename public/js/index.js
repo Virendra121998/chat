@@ -4,7 +4,19 @@ var socket=io();
 
         
      });
-      
+      function scroll(){
+         var messages=jQuery('#messages');
+         var newMessage=messages.children('li:last-child');
+         var clientheight=messages.prop('clientHeight');
+         var scrollHeight=messages.prop('scrollHeight');
+         var scrollTop=messages.prop('scrollTop');
+         var newMessageHeight=newMessage.innerHeight();
+         var lastMessageHeight=newMessage.prev().innerHeight();
+         if(clientheight+scrollTop+newMessageHeight+lastMessageHeight>=scrollHeight)
+           messages.scrollTop(scrollHeight);     
+       }  
+
+
      socket.on('new',function(mes){
      	console.log('Message from server', mes);
      });
@@ -23,6 +35,7 @@ var socket=io();
      		createdAt:moment(message.createdAt).format('LT')
      	});
         jQuery('#messages').append(ht);
+        scroll();
      	// var li=jQuery('<li></li>');
      	// li.text(`${message.from}:${moment(message.createdAt).format('LT')} ${message.text}`);
      	// jQuery('#messages').append(li);
@@ -38,6 +51,7 @@ var socket=io();
       		createdAt:moment(message.createdAt).format('LT')
       	});
       	jQuery('#messages').append(ht);
+      	scroll();
       	// var l2=jQuery('<li></li>');
       	// var a=jQuery('<a target="_blank">My current Location</a>');
       	// l2.text(`${message.from}: ${moment(message.createdAt).format('LT')}  `);
