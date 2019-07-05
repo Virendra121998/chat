@@ -5,6 +5,7 @@ const socketio=require('socket.io');
 const http=require('http');
 const hbs=require('hbs');
 const {m}=require('./utils/message');
+const {generatelocation}=require('./utils/location');
 const port=process.env.PORT||3000;
 var app=express();
 var server=http.createServer(app);
@@ -23,10 +24,14 @@ io.on('connection',(socket)=>{
          callback('This is from server');
 	});
 
+	socket.on('createLocation',(coords)=>{
+		io.emit('newLocationMessage',generatelocation("Virendra",coords.latitude,coords.longitude));
+	});
 	socket.on('disconnect',()=>{
 		console.log('User disconeected');
 	});
 });
+
 
 server.listen(port,()=>{
 	console.log(`Started app on port ${port}`);

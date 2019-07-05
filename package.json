@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "test": "mocha --timeout 15000 server/**/*.test.js",
-    "test-new":"nodemon --exec 'npm test'"
+    "test-new": "nodemon --exec 'npm test'"
   },
   "engines": {
     "node": "12.3.1"
@@ -16,6 +16,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "hbs": "^4.0.0",
+    "moment": "^2.15.1",
     "nodemon": "^1.19.1",
     "socket.io": "^1.4.8"
   },
