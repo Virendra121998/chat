@@ -92,7 +92,6 @@ var socket=io();
      	e.preventDefault();
 
      	socket.emit('createMessage',{
-     		from:'User',
      		text:jQuery('[name=Message]').val()
      	},function(data){
      		console.log('Got it ',data);

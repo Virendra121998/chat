@@ -37,13 +37,18 @@ io.on('connection',(socket)=>{
 
 	});
 	socket.on('createMessage',(message,callback)=>{
-         console.log(message);
-         io.emit('newMessage',m(message.from,message.text));
+         var user=users.getUser(socket.id);
+         if(user){
+         io.to(user.room).emit('newMessage',m(user.name,message.text));
          callback('This is from server');
+        } 
 	});
 
 	socket.on('createLocation',(coords)=>{
-		io.emit('newLocationMessage',generatelocation("Virendra",coords.latitude,coords.longitude));
+		var user=users.getUser(socket.id);
+		if(user){
+		io.to(user.room).emit('newLocationMessage',generatelocation(user.name,coords.latitude,coords.longitude));
+	    }
 	});
 	socket.on('disconnect',()=>{
 		console.log('User disconnected');
