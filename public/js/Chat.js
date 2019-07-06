@@ -1,7 +1,15 @@
 var socket=io();
          socket.on('connect',function(){
          console.log('connected to server');
-
+         var params=jQuery.deparam(window.location.search);
+         socket.emit('join', params, function(err){
+         	if(err){
+         		alert(err);
+         		window.location.href='/';
+         	}else{
+         		console.log('No error');
+         	}
+         });
         
      });
       function scroll(){
@@ -18,10 +26,22 @@ var socket=io();
 
 
      socket.on('new',function(mes){
-     	console.log('Message from server', mes);
+     		var template=jQuery('#message-template').html();
+     	    var ht=Mustache.render(template,{
+     		from:mes.from,
+     		text:mes.text,
+     		createdAt:moment(mes.createdAt).format('LT')
+     	});
+        jQuery('#messages').append(ht);
      });
      socket.on('newUser',function(mes){
-     	console.log('Message to every other user',mes);
+     		var template=jQuery('#message-template').html();
+     	    var ht=Mustache.render(template,{
+     		from:mes.from,
+     		text:mes.text,
+     		createdAt:moment(mes.createdAt).format('LT')
+     	});
+        jQuery('#messages').append(ht);
      });   
      socket.on('disconnect',function(){
      console.log('disconnected from server');

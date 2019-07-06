@@ -13,6 +13,6 @@ describe('Generate location message',()=>{
 	it('should generate location ',()=>{
 		var res=generatelocation('virendra',15.234,23.4556);
 		expect(res.from).toBe(	`virendra`);
-		expect(res.url).toEqual(`https://www.google.com/maps?q=15.234,23.4556`);
+		expect(res.u).toEqual(`https://www.google.com/maps?q=15.234,23.4556`);
 	});
 });
