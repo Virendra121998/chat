@@ -46,6 +46,14 @@ var socket=io();
      socket.on('disconnect',function(){
      console.log('disconnected from server');
  });
+     socket.on('getUserList',function(users){
+     	var ol=jQuery('<ol></ol>');
+     	users.forEach(function(user){
+     		ol.append(jQuery('<li></li>').text(user));
+     	});
+     	jQuery('#users').html(ol);
+     });
+
      socket.on('newMessage',function(message){
      	console.log('Message from server is ',message);
      	var template=jQuery('#message-template').html();
